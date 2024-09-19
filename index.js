@@ -84,10 +84,11 @@ let cardsArr = [
   },
 ];
 let shoppingCartArr = [];
-const currentPage = window.location.pathname;
-if (currentPage.includes("index.html")) {
-  renderCardsContainer();
+let savedShopingCart = localStorage.getItem("cart");
+if (savedShopingCart) {
+  shoppingCartArr = JSON.parse(savedShopingCart);
 }
+renderCardsContainer();
 function renderCardsContainer() {
   cardsContainer.innerHTML = "";
   cardsArr.forEach((ele, index) => {
@@ -135,6 +136,7 @@ function addtocart(index) {
     counter--;
   }
   numOfItemsInCart.innerText = counter;
+  localStorage.setItem("cart", JSON.stringify(shoppingCartArr));
   renderCardsContainer();
 }
 
@@ -292,6 +294,7 @@ function decreaseQuantity(index) {
     counter--;
     numOfItemsInCart.innerText = counter;
   }
+  localStorage.setItem("cart", JSON.stringify(shoppingCartArr));
   renderCart();
 }
 function increaseQuantity(index) {
@@ -303,6 +306,7 @@ function increaseQuantity(index) {
     (shoppingCartArr[index].price / 15) * shoppingCartArr[index].quantity;
   shoppingCartArr[index].shipping = 15 * shoppingCartArr[index].quantity;
   //
+  localStorage.setItem("cart", JSON.stringify(shoppingCartArr));
   renderCart();
 }
 
@@ -314,5 +318,6 @@ function deleteItem(index) {
   shoppingCartArr.splice(index, 1);
   counter--;
   numOfItemsInCart.innerText = counter;
+  localStorage.setItem("cart", JSON.stringify(shoppingCartArr));
   renderCart();
 }
